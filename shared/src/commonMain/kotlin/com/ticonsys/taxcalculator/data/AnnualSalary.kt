@@ -14,9 +14,12 @@ data class AnnualSalary(
 )
 
 fun AnnualSalary.netTaxableAmount(): Double {
-    val houseRentTaxAmount = if (houseRentAllowance > Constants.THREE_LAKH)
+    val halfOfBasicSalary = basicSalary / 2.0
+
+    val houseRentTaxAmount = if (halfOfBasicSalary > Constants.THREE_LAKH)
         houseRentAllowance - Constants.THREE_LAKH
-    else 0.0
+    else houseRentAllowance - halfOfBasicSalary
+
     val medicalPercent = basicSalary * 0.1
     val medicalTaxAmount = if (medicalAllowance > medicalPercent)
         medicalAllowance - medicalPercent
@@ -34,48 +37,48 @@ fun AnnualSalary.netTaxableAmount(): Double {
             festivalBonus
 }
 
-fun Double.taxLeviableOnTotalIncome(): Double {
+fun Double.taxLiability(): Double {
     var totalIncome = this
-    var taxLeviableOnTotalIncome = 0.0
+    var taxLiabilityAmount = 0.0
     if (totalIncome >= Constants.THREE_LAKH) {
-        totalIncome -= com.ticonsys.taxcalculator.domain.Constants.THREE_LAKH
+        totalIncome -= Constants.THREE_LAKH
     }
     if (totalIncome > 0.0) {
         if (totalIncome > Constants.ONE_LAKH) {
-            taxLeviableOnTotalIncome += Constants.ONE_LAKH * 0.05
-            totalIncome -= com.ticonsys.taxcalculator.domain.Constants.ONE_LAKH
+            taxLiabilityAmount += Constants.ONE_LAKH * 0.05
+            totalIncome -= Constants.ONE_LAKH
         } else {
-            taxLeviableOnTotalIncome += totalIncome * 0.05
+            taxLiabilityAmount += totalIncome * 0.05
             totalIncome = 0.0
         }
     }
 
     if (totalIncome > Constants.THREE_LAKH) {
-        taxLeviableOnTotalIncome += Constants.THREE_LAKH * 0.10
-        totalIncome -= com.ticonsys.taxcalculator.domain.Constants.THREE_LAKH
+        taxLiabilityAmount += Constants.THREE_LAKH * 0.10
+        totalIncome -= Constants.THREE_LAKH
     } else {
-        taxLeviableOnTotalIncome += totalIncome * 0.10
+        taxLiabilityAmount += totalIncome * 0.10
         totalIncome = 0.0
     }
 
     if (totalIncome > Constants.FOUR_LAKH) {
-        taxLeviableOnTotalIncome += Constants.FOUR_LAKH * 0.15
-        totalIncome -= com.ticonsys.taxcalculator.domain.Constants.FOUR_LAKH
+        taxLiabilityAmount += Constants.FOUR_LAKH * 0.15
+        totalIncome -= Constants.FOUR_LAKH
     } else {
-        taxLeviableOnTotalIncome += totalIncome * 0.15
+        taxLiabilityAmount += totalIncome * 0.15
         totalIncome = 0.0
     }
     if (totalIncome > Constants.FIVE_LAKH) {
-        taxLeviableOnTotalIncome += Constants.FIVE_LAKH * 0.20
-        totalIncome -= com.ticonsys.taxcalculator.domain.Constants.FIVE_LAKH
+        taxLiabilityAmount += Constants.FIVE_LAKH * 0.20
+        totalIncome -= Constants.FIVE_LAKH
     } else {
-        taxLeviableOnTotalIncome += totalIncome * 0.20
+        taxLiabilityAmount += totalIncome * 0.20
         totalIncome = 0.0
     }
 
     if (totalIncome > 0.0) {
-        taxLeviableOnTotalIncome += totalIncome * 0.25
+        taxLiabilityAmount += totalIncome * 0.25
         totalIncome -= totalIncome
     }
-    return taxLeviableOnTotalIncome
+    return taxLiabilityAmount
 }

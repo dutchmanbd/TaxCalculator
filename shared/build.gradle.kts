@@ -11,7 +11,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -23,13 +23,28 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val ktorVersion: String by project
+        val ktorJsoupVersion: String by project
+
+        val commonMain by getting {
+            dependencies {
+//                implementation("io.ktor:ktor-client-core:$ktorVersion")
+//                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+//                implementation("com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+//                implementation("io.ktor:ktor-client-core:$ktorVersion")
+//                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+//                implementation("com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion")
+            }
+        }
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -39,6 +54,11 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+//                implementation("io.ktor:ktor-client-core:$ktorVersion")
+//                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+//                implementation("com.tfowl.ktor:ktor-jsoup:$ktorJsoupVersion")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting

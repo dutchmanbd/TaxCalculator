@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ticonsys.taxcalculator.android.home.NavGraphs
+import com.ticonsys.taxcalculator.android.home.destinations.HomeScreenDestination
 
 
 class MainActivity : ComponentActivity() {
@@ -14,12 +18,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-
-                }
+                val navController = rememberNavController()
+                DestinationsNavHost(
+                    navGraph = NavGraphs.root,
+                    navController = navController,
+                    startRoute = HomeScreenDestination
+                )
             }
         }
     }
